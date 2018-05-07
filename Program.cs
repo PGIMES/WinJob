@@ -13,8 +13,14 @@ namespace WinJob
     class Program
     {
         static string FilePath = ConfigurationManager.AppSettings["FilePath"];
+
+        string ftpip = ConfigurationManager.AppSettings["ftpip"];
+        string ftpusername = ConfigurationManager.AppSettings["ftpusername"];
+        string ftppassword = ConfigurationManager.AppSettings["ftppassword"];
+
         SQLHelper SQLHelper = new SQLHelper();
-        SFTPHelper sftp = new SFTPHelper("172.16.5.12", "qad", "qad");
+
+        
 
         static void Main(string[] args)
         {
@@ -29,6 +35,8 @@ namespace WinJob
 
         private void getPOInfor()
         {
+            SFTPHelper sftp = new SFTPHelper(ftpip, ftpusername, ftppassword);
+
             DataSet ds = new DataSet();
             SqlParameter[] param = new SqlParameter[]
              {
@@ -43,11 +51,11 @@ namespace WinJob
             {
                 filename = dr["PoDomain"].ToString() + "PUR" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
                 DataRow[] datarows = dt_dtl.Select("PONo='" + dr["PONo"].ToString() + "'");
-                Pur_Po_ListMatExport(datarows, filename, dr["PONo"].ToString());
+                Pur_Po_ListMatExport(datarows, filename, dr["PONo"].ToString(), sftp);
             }
         }
 
-        private int Pur_Po_ListMatExport(DataRow[] drs, string filename,string pono)
+        private int Pur_Po_ListMatExport(DataRow[] drs, string filename,string pono, SFTPHelper sftp)
         {
             var result = 0;
             try
