@@ -35,6 +35,10 @@ namespace WinJob
 
         private void getPOInfor()
         {
+            if (!Directory.Exists(FilePath))
+            {
+                Directory.CreateDirectory(FilePath);
+            }
             SFTPHelper sftp = new SFTPHelper(ftpip, ftpusername, ftppassword);
 
             DataSet ds = new DataSet();
@@ -60,7 +64,7 @@ namespace WinJob
             var result = 0;
             try
             {
-                FileStream fs = new FileStream(FilePath + filename + ".txt", FileMode.Append, FileAccess.Write);
+                FileStream fs = new FileStream(FilePath + @"\" + filename + ".txt", FileMode.Append, FileAccess.Write);
                 StreamWriter sw = new StreamWriter(fs, Encoding.GetEncoding("UTF-8"));
 
                 for (int i = 0; i < drs.Length; i++)
