@@ -18,13 +18,7 @@ namespace WinJob
         string ftpusername = ConfigurationManager.AppSettings["ftpusername"];
         string ftppassword = ConfigurationManager.AppSettings["ftppassword"];
 
-        string UserName = ConfigurationManager.AppSettings["ftpusername"].ToString();
-        string Password = ConfigurationManager.AppSettings["ftppassword"].ToString();
-        System.Uri Uri = new Uri("ftp://" + ConfigurationManager.AppSettings["ftpip"] + ":" + ConfigurationManager.AppSettings["ftpportno"]);
-
         SQLHelper SQLHelper = new SQLHelper();
-
-        
 
         static void Main(string[] args)
         {
