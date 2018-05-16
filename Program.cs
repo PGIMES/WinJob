@@ -76,7 +76,7 @@ namespace WinJob
                     sw.Write(drs[i]["wlh"].ToString()); sw.Write(",");//请购物料号
                     sw.Write(drs[i]["PurQty"].ToString()); sw.Write(",");//数量
                     sw.Write(drs[i]["NoTaxPrice"].ToString()); sw.Write(",");//未税价格
-                    sw.Write(Convert.ToDateTime(drs[i]["CreateDate"].ToString()).ToString("yyMMdd")); sw.Write(",");//年简称080424 请购日期
+                    sw.Write(Convert.ToDateTime(drs[i]["PlanReceiveDate"].ToString()).ToString("yyMMdd")); sw.Write(",");//年简称080424 请购日期
                     sw.Write(drs[i]["CreateByName"].ToString()); sw.Write(",");//请购申请人
                     string ls = drs[i]["CreateById"].ToString() + drs[i]["CreateByName"].ToString() + "/" + drs[i]["PoVendorId"].ToString() + drs[i]["PoVendorName"].ToString();
                     sw.Write(ls.Substring(0, 20)); sw.Write(",");//请购申请人工号+姓名/采购供应商代码+名称（20个字）

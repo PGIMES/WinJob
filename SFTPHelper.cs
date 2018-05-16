@@ -77,7 +77,7 @@ namespace WinJob
                 m_sftp.put(src, dst);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
                 return false;
             }
