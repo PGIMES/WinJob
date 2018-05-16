@@ -18,6 +18,10 @@ namespace WinJob
         string ftpusername = ConfigurationManager.AppSettings["ftpusername"];
         string ftppassword = ConfigurationManager.AppSettings["ftppassword"];
 
+        string UserName = ConfigurationManager.AppSettings["ftpusername"].ToString();
+        string Password = ConfigurationManager.AppSettings["ftppassword"].ToString();
+        System.Uri Uri = new Uri("ftp://" + ConfigurationManager.AppSettings["ftpip"] + ":" + ConfigurationManager.AppSettings["ftpportno"]);
+
         SQLHelper SQLHelper = new SQLHelper();
 
         
@@ -27,9 +31,18 @@ namespace WinJob
             if (ConfigurationManager.AppSettings["AutoRun"].ToString().Trim() == "Y")
             {
                 Program p = new Program();
+                //p.getPOInfor2();
                 p.getPOInfor();
             }
         }
+
+        //private void getPOInfor2()
+        //{
+        //    fn_FTP ftp = new fn_FTP(ftpip, ftpusername, ftppassword);
+        //    ftp.fileUpload(FilePath + @"\" , "200PUR20180516144640265" + ".txt", "/apps/OA/test/", "200PUR20180516144640265" + ".txt");
+
+        //}
+
 
         #region Pur_Po_ListMatExport
 
@@ -39,7 +52,7 @@ namespace WinJob
             {
                 Directory.CreateDirectory(FilePath);
             }
-            SFTPHelper sftp = new SFTPHelper(ftpip, ftpusername, ftppassword);
+            fn_FTP ftp = new fn_FTP(ftpip, ftpusername, ftppassword);
 
             DataSet ds = new DataSet();
             SqlParameter[] param = new SqlParameter[]
@@ -55,11 +68,11 @@ namespace WinJob
             {
                 filename = dr["PoDomain"].ToString() + "PUR" + DateTime.Now.ToString("yyyyMMddHHmmssfff");
                 DataRow[] datarows = dt_dtl.Select("PONo='" + dr["PONo"].ToString() + "'");
-                Pur_Po_ListMatExport(datarows, filename, dr["PONo"].ToString(), sftp);
+                Pur_Po_ListMatExport(datarows, filename, dr["PONo"].ToString(), ftp);
             }
         }
 
-        private int Pur_Po_ListMatExport(DataRow[] drs, string filename,string pono, SFTPHelper sftp)
+        private int Pur_Po_ListMatExport(DataRow[] drs, string filename,string pono, fn_FTP ftp)
         {
             var result = 0;
             try
@@ -88,11 +101,9 @@ namespace WinJob
                 sw.Close();
                 fs.Close();
 
-                sftp.Connect();
-                bool bf = sftp.Put(FilePath + filename + ".txt", "/apps/OA/" + filename + ".txt");
-                sftp.Disconnect();
+                string success = ftp.fileUpload(FilePath + @"\", filename + ".txt", "/apps/OA/", filename + ".txt");
 
-                if (bf)
+                if (success == "")
                 {
                     SqlParameter[] param2 = new SqlParameter[]
                          {
