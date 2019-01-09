@@ -86,7 +86,8 @@ namespace WinJob
                     sw.Write(Convert.ToDateTime(drs[i]["PlanReceiveDate"].ToString()).ToString("yyMMdd")); sw.Write(",");//年简称080424 请购日期
                     sw.Write(drs[i]["CreateByName"].ToString()); sw.Write(",");//请购申请人
                     string ls = drs[i]["CreateById"].ToString() + drs[i]["CreateByName"].ToString() + "/" + drs[i]["PoVendorId"].ToString() + drs[i]["PoVendorName"].ToString();
-                    sw.Write(ls.Substring(0, 20)); sw.Write(",");//请购申请人工号+姓名/采购供应商代码+名称（20个字）
+                    //sw.Write(ls.Substring(0, 20)); sw.Write(",");//请购申请人工号+姓名/采购供应商代码+名称（20个字）
+                    sw.Write(ls.Substring(0, ls.Length >= 20 ? 20 : ls.Length)); sw.Write(",");//请购申请人工号+姓名/采购供应商代码+名称（20个字）
                     sw.Write(drs[i]["rowid"].ToString()); sw.Write(",");  //采购行号                    
                     sw.Write("\r\n");
                 }
@@ -102,7 +103,8 @@ namespace WinJob
                     SqlParameter[] param2 = new SqlParameter[]
                          {
                                    new SqlParameter("@flag","PO_Update"),
-                                   new SqlParameter("@pono",pono)
+                                   new SqlParameter("@pono",pono),
+                                   new SqlParameter("@filename",filename)
                          };
                     SQLHelper.ExecuteNonQuery("usp_Winjob", param2);
                 }
