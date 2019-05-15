@@ -194,7 +194,7 @@ namespace WinJob
                 sw.Close();
                 fs.Close();
 
-                string success = ftp.fileUpload(FilePath + @"\", filename + ".txt", "/apps/OA/test/", filename + ".txt");
+                string success = ftp.fileUpload(FilePath + @"\", filename + ".txt", "/apps/OA/", filename + ".txt");
 
                 if (success == "")
                 {
