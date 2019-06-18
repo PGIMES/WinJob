@@ -181,11 +181,15 @@ namespace WinJob
                     string ls = drs[i]["CreateById"].ToString() + drs[i]["CreateByName"].ToString() + "/" + drs[i]["PoVendorId"].ToString() + drs[i]["PoVendorName"].ToString();
                     sw.Write(ls.Substring(0, ls.Length >= 20 ? 20 : ls.Length)); sw.Write(",");//请购申请人工号+姓名/采购供应商代码+名称（20个字）
 
-                    sw.Write(drs[i]["rowid"].ToString());//采购行号      
-                    if (pur_pum == "PUR")
-                    {
-                        sw.Write(",");//PUR末尾 需要产生 逗号     
-                    }
+                    sw.Write(drs[i]["rowid"].ToString()); sw.Write(",");//采购行号   
+
+                    sw.Write(drs[i]["TaxRate_Code"].ToString()); sw.Write(",");//税率代号      
+                    sw.Write(drs[i]["ishs"].ToString()); //是否含税    
+                      
+                    //if (pur_pum == "PUR")
+                    //{
+                    //    sw.Write(",");//PUR末尾 需要产生 逗号     
+                    //}
 
                     sw.Write("\r\n");
                 }
